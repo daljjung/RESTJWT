@@ -2,10 +2,16 @@ package com.example.demo.userinfo;
 
 import com.example.demo.security.dto.AuthRequest;
 import com.example.demo.security.jwt.JwtService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 //@RestController view를 리턴하지 않아서 view를 위해 컨트롤러로 변경
 @Controller
 @RequestMapping("/users")
+@Slf4j
 public class UserInfoController{
 
     @Autowired
@@ -29,9 +36,10 @@ public class UserInfoController{
     @Autowired
     private JwtService jwtService;
 
-    @GetMapping("/welcome")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping(value = "/home")
     public String welcome() {
-        return "Welcome this endpoint is not secure";
+        return "member/home";
     }
 
     @GetMapping(value = "/signUp")
@@ -56,18 +64,32 @@ public class UserInfoController{
 
     }
 
-    @PostMapping("/signIn")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    @PostMapping("/signIning")
+    public String authenticateAndGetToken(AuthRequest authRequest, HttpServletResponse rs) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authRequest.getEmail(),
                         authRequest.getPassword()
                 ));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getEmail());
+
+            String jwtTk = jwtService.generateToken(authRequest.getEmail());
+
+            UserInfoUserDetails userDetails = (UserInfoUserDetails)authentication.getPrincipal();
+
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@TOKEN " + jwtTk);
+
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
+
+        //return "redirect:/users/home";
+        return this.welcome();
     }
+
 
 }

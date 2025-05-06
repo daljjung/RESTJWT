@@ -15,11 +15,15 @@ import java.io.IOException;
 @Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+
+
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException)
             throws IOException, ServletException {
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@AuthenticationEntryPoint");
 
         response.setContentType("application/json;charset=UTF-8");
         //Set response status code 401

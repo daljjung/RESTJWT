@@ -1,3 +1,4 @@
+/*
 package com.example.demo.filter;
 
 import com.example.demo.security.jwt.JwtService;
@@ -18,6 +19,7 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -26,18 +28,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@JwtAuthenticationFilter");
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@JwtAuthenticationFilter111");
+
             token = authHeader.substring(7);
             username = jwtService.extractUsername(token);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@JwtAuthenticationFilter222");
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (jwtService.validateToken(token, userDetails)) {
+
+                System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@JwtAuthenticationFilter333");
+
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails,
                                 null, userDetails.getAuthorities());
@@ -46,5 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@JwtAuthenticationFilter444");
     }
-}
+}*/

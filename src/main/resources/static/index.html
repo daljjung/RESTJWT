@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Index Page</title>
@@ -18,10 +19,19 @@
             <div class="card-body p-5 text-center">
                 <h2 class="text-white">Index Page</h2>
 
+                <!--
+                <div>
+                    <p sec:authorize="isAuthenticated()" sytle="font-color='white'">로그인상태</p>
+                    <p sec:authorize="!isAuthenticated()" sytle="font-color='white'">로그아웃상태1</p>
+                    <p sec:authorize="isAnonymous()" sytle="font-color='white'">로그아웃상태</p>
+                </div>
+                -->
+
                 <div class = "mb-2">
                     <!--<button type="submit" class="btn btn-info" onclick="location.href='/users/signup'">Show lecture List</button>-->
                     <button type="submit" class="btn btn-primary" onclick="location.href='/users/signIn'">Sign in</button>
                     <button type="submit" class="btn btn-info" onclick="location.href='/users/signUp'">Sign up</button>
+                    <button type="submit" class="btn btn-light" onclick="location.href='/users/home'">HOME</button>
 
                 </div>
             </div>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <title>HOME page</title>
+</head>
+<body>
+    HOME page
+
+   <form th:action="@{/app-logout}" method="POST" sec:authorize="isAuthenticated()">
+        <button class="btn btn-light" type="submit">Logout</button>
+    </form>
+
+</body>
+</html>
