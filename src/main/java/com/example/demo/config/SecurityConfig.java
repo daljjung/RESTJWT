@@ -2,7 +2,6 @@ package com.example.demo.config;
 
 import com.example.demo.exception.CustomAccessDeniedHandler;
 import com.example.demo.exception.CustomAuthenticationEntryPoint;
-import com.example.demo.filter.JwtAuthenticationFilter;
 import com.example.demo.userinfo.UserInfoUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,7 +137,6 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@AuthenticationProvider");
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
